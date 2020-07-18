@@ -91,17 +91,22 @@ namespace VRM
 
                 exportData.m_Colliders = new List<string>();
                 foreach(DynamicBoneCollider collider in dynamicbone.m_Colliders){
-                    string colliderName = m_Utility.GetHierarchyPath(collider.gameObject.transform);
-                    exportData.m_Colliders.Add(colliderName);
-
-                    //コライダーのついているオブジェクトの名前を登録する（重複なし、なければ追加）
-                    if(ColliderTergetName.Count == 0){
-                        ColliderTergetName.Add(colliderName);
+                    if(collider == null){
+                        Debug.Log(dynamicbone.gameObject.transform + "はcolliderがnullだからskipしたよ");
                     }
                     else{
-                        if(ColliderTergetName.IndexOf(colliderName) == -1){
+                        string colliderName = m_Utility.GetHierarchyPath(collider.gameObject.transform);
+                        exportData.m_Colliders.Add(colliderName);
+
+                        //コライダーのついているオブジェクトの名前を登録する（重複なし、なければ追加）
+                        if(ColliderTergetName.Count == 0){
                             ColliderTergetName.Add(colliderName);
-                        };
+                        }
+                        else{
+                            if(ColliderTergetName.IndexOf(colliderName) == -1){
+                                ColliderTergetName.Add(colliderName);
+                            };
+                        }
                     }
                 }
 
